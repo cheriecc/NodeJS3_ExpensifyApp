@@ -14,13 +14,14 @@ var root = ReactDOM.createRoot(appRoot)
 
 const store = configureStore();
 
-store.dispatch(addExpense({ description: 'water bill', amount: 20 }))
-store.dispatch(addExpense({ description: 'gas bill', amount: 30 }))
-store.dispatch(setTextFilter('gas'))
+store.dispatch(addExpense({ description: 'Water bill', amount: 20, createAt: 3000 }))
+store.dispatch(addExpense({ description: 'Gas bill', amount: 30, createAt: 2000 }))
+store.dispatch(addExpense({ description: 'Rent', amount: 450, createAt: 1000 }))
+// store.dispatch(setTextFilter(''))
 
-setTimeout(() => {
-    store.dispatch(setTextFilter('bill'))
-}, 3000);
+// setTimeout(() => {
+//     store.dispatch(setTextFilter('bill'))
+// }, 3000);
 
 const state = store.getState()
 const visibleExpenses = getVisibleExpenses(state.expenses, state.filters)

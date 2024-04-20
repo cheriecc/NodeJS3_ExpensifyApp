@@ -1,33 +1,80 @@
-import { v4 as uuid } from 'uuid';
+import { auth, db } from '../firebase/firebase';
+import { ref, push, get, remove, update } from 'firebase/database';
 
-// ADD_EXPENSE
-export const addExpense = (
-    {
-        description = '',
-        note = '',
-        amount = 0,
-        createAt = 0
-    } = {}
-    ) => ({
+
+export const addExpense = (expense) => ({
         type: 'ADD_EXPENSE',
-        expense: {
-            id: uuid(),
-            description,
-            note,
-            amount,
-            createAt
-        }
-    })
+        expense
+})
+
+export const addNewExpense = (expenseData = {}) => {
+    return async (dispatch) => {
+
+        const {
+            description = '',
+            note = '',
+            amount = 0,
+            createAt = 0,
+        } = expenseData;
+
+        const expense = {description, note, amount, createAt};
+        const snapshot = await push(ref(db, `users/${auth.currentUser.uid}/Expenses`), expense)
+
+        dispatch(addExpense({ id: snapshot.key, ...expense }));
+    }
+}
+
 
 // REMOVE_EXPENSE
 export const removeExpense = ({ id } = {}) => ({
     type: 'REMOVE_EXPENSE',
     id
 })
+
+export const deleteExpense = ({ id } = {}) => {
+    return async (dispatch) => {
+
+        await remove(ref(db, `users/${auth.currentUser.uid}/Expenses/${id}`))
+        dispatch(removeExpense({ id }))
+    }
+}
+
+
 // EDIT_EXPENSE
-// to define function name & input ; but don't do anything with the operation & output
-export const editExpense = (id , update) => ({
+export const editExpense = (id , updates) => ({
     type: 'EDIT_EXPENSE',
     id,
-    update
+    updates
 })
+
+export const updateExpense = (id, updates) => {
+    return async (dispatch) => {
+
+        await update(ref(db, `users/${auth.currentUser.uid}/Expenses/${id}`), updates)
+        dispatch(editExpense(id, updates))
+    }
+}
+
+
+// SET_EXPENSES
+export const setExpenses = (expenses) => ({
+    type: 'SET_EXPENSES',
+    expenses
+})
+
+export const setAllExpenses = () => {
+    return async (dispatch) => {
+
+        const snapshot = await get(ref(db, `users/${auth.currentUser.uid}/Expenses`));
+        const expenses = [];
+
+        snapshot.forEach((childSnapshot) => {
+            expenses.push({
+                id: childSnapshot.key,
+                ...childSnapshot.val()
+            });
+        });
+
+        dispatch(setExpenses(expenses));
+    }
+}

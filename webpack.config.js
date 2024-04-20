@@ -1,5 +1,6 @@
-const path = require('path')
-
+const path = require('path');
+const webpack = require('webpack');
+const Dotnev = require('dotenv-webpack');
 
 module.exports = {
     mode: 'development',
@@ -26,5 +27,11 @@ module.exports = {
             directory: path.join(__dirname, 'public')
         },
         historyApiFallback: true
-    }
+    },
+    plugins: [
+        new Dotnev({
+            path: './.env',
+            safe: true
+        })
+    ]
 }

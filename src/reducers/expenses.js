@@ -13,12 +13,14 @@ const expensesReducer = (state = expensesReducerDefaultState, action) => {
             return state.map((expense) => {
                 if (expense.id === action.id) {
                     return {
-                        ...expense, ...action.update
+                        ...expense, ...action.updates
                     }
                 } else {
                     return expense
                 }
             })
+        case 'SET_EXPENSES':
+            return action.expenses
         default:
             return state;
     }

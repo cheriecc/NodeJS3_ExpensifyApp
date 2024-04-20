@@ -1,16 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { combineReducers } from 'redux';
 import expensesReducer from '../reducers/expenses';
 import filtersReducer from '../reducers/filters';
 
-export default () => {
-    // Store creation
-    const store = configureStore({
-        reducer: combineReducers({
-            expenses: expensesReducer,
-            filters: filtersReducer
+const store = configureStore({
+    reducer: {
+        expenses: expensesReducer,
+        filters: filtersReducer
+    },
+    middleware: getDefaultMiddleware => 
+    getDefaultMiddleware({
+        serializableCheck: false,
         })
-    })
+})
 
-    return store
-}
+export default store

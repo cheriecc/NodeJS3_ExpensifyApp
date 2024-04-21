@@ -14,7 +14,12 @@ const EditExpensePage = () => {
     
     return (
         <div>
-            This is Edit page with id of {id}
+            <div className="page-header">
+                <div className="content-container">
+                    <h1 className="page-header__title">Edit Expense</h1>
+                </div>
+            </div>
+            <div className='content-container'>
             <ExpenseForm
                 expense={expense}
                 onSubmit={(expenseUpdate) => {
@@ -22,10 +27,11 @@ const EditExpensePage = () => {
                     navigate("/dashboard");
                 } }
             />
-            <button onClick={() => {
+            <button className="button button__secondary" onClick={() => {
                 dispatch(deleteExpense({ id }));
                 navigate("/dashboard");
-            }}>Remove</button>
+            }}>Remove Expense</button>
+            </div>
         </div>
     )
 }

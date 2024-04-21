@@ -60,11 +60,11 @@ const ExpenseForm = (props) => {
     }
 
     return (
-        <div>
-            {expenseState.error && <p>{expenseState.error}</p>}
-            <form onSubmit={onSubmit}>
+            <form className="form" onSubmit={onSubmit}>
+                {expenseState.error && <p className="form__error">{expenseState.error}</p>}
                 <input 
                     type="text"
+                    className="text-input"
                     placeholder="Description"
                     autoFocus
                     value={expenseState.description}
@@ -72,6 +72,7 @@ const ExpenseForm = (props) => {
                 />
                 <input
                     type="number"
+                    className="text-input"
                     placeholder="Amount"
                     value={expenseState.amount}
                     onChange={onAmountChange}
@@ -88,11 +89,13 @@ const ExpenseForm = (props) => {
                     placeholder="Add a note for your expense (optional)"
                     value={expenseState.note}
                     onChange={onNoteChange}
+                    className="textarea"
                 >
                 </textarea>
-                <button>{props.expense ? `Edit Expense`: `Add Expense`}</button>
+                <div>
+                    <button className="button">{props.expense ? `Save Expense`: `Add Expense`}</button>
+                </div>
             </form>
-        </div>
     )
 }
 

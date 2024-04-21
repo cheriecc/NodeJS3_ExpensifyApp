@@ -9,6 +9,7 @@ import './styles/styles.scss';
 import { auth } from './firebase/firebase'
 import { onAuthStateChanged } from 'firebase/auth';
 import { logOut } from './actions/auth';
+import LoadingPage from './components/LoadingPage';
 
 var appRoot = document.getElementById('app')
 var root = ReactDOM.createRoot(appRoot)
@@ -19,7 +20,7 @@ const jsx = (
     </Provider>
 )
 
-root.render(<p>Loading</p>)
+root.render(<LoadingPage />)
 
 onAuthStateChanged(auth, (user) => {
 
